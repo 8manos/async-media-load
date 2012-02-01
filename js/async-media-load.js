@@ -27,6 +27,14 @@
 			$a.append($img);
 		}
 
+		var playYoutube = function(e)
+		{
+			e.preventDefault();
+
+			var $embed = $('<iframe width="'+e.data.width+'" height="'+e.data.height+'" src="http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1" frameborder="0" allowfullscreen></iframe>');
+			$(this).replaceWith($embed);
+		}
+
 		return this.each(function()
 		{
 			var href = $(this).attr('href');
@@ -36,6 +44,8 @@
 			var height = $(this).parent().height();
 
 			insertImg($(this), video_id, width, height);
+
+			$(this).on('click', {width: width, height: height, id: video_id}, playYoutube);
 		});
 	}
 })(jQuery);
