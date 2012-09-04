@@ -74,14 +74,17 @@
 			var href = $this.attr('href');
 			var provider = getProvider(href);
 			var video_id = getVideoId(href, provider);
-			var width = $this.parent().width();		
+			var width = $this.parent().width();
 			var height = $this.parent().height();
 
-			if (provider == 'vimeo'){
-				getVideoDetails($this, video_id, width, height);
-			}else{
-				var img_src = 'http://img.youtube.com/vi/'+video_id+'/hqdefault.jpg';
-				insertImg($this, img_src, width, height);
+			//get thumbnail only if there isn't one already
+			if ($this.children('img').length == 0){
+				if (provider == 'vimeo'){
+					getVideoDetails($this, video_id, width, height);
+				}else{
+					var img_src = 'http://img.youtube.com/vi/'+video_id+'/hqdefault.jpg';
+					insertImg($this, img_src, width, height);
+				}
 			}
 
 			$(this).on('click', {width: width, height: height, id: video_id, provider: provider}, playVid);
