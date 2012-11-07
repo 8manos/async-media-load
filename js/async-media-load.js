@@ -63,7 +63,7 @@
 			if (e.data.provider == 'vimeo'){
 				embed_url = 'http://player.vimeo.com/video/'+e.data.id+'?autoplay=1';
 			}else{
-				embed_url = 'http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1';
+				embed_url = 'http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1&amp;wmode=opaque';
 			}
 			var $embed = $('<iframe width="'+e.data.width+'" height="'+e.data.height+'" src="'+embed_url+'" frameborder="0" allowfullscreen></iframe>');
 			$(this).replaceWith($embed);
