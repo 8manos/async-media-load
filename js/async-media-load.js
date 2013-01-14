@@ -1,3 +1,34 @@
+// create youtube player
+var video_container_id;
+var yt_video_id;
+var player;
+var yt_height;
+var yt_width;
+
+function loadYouTubePlayer()
+{
+	player = new YT.Player(video_container_id, {
+		height: yt_height,
+		width: yt_width,
+		videoId: yt_video_id,
+		playerVars: {
+			autohide: 1,
+			autoplay: 1,
+			controls: 1,
+			enablejsapi: 1,
+			fs: 0,
+			rel: 0,
+			showinfo: 0 ,
+			modestbranding: 1,
+			wmode: "opaque"
+		},
+	});
+}
+
+function onYouTubePlayerAPIReady() {
+	loadYouTubePlayer();
+}
+
 (function($)
 {
 	$.fn.asyncml = function(options)
@@ -54,6 +85,27 @@
 			});
 		}
 
+		/*
+		 *Only for Youtube
+		 */
+		function isYoutubeApiLoaded(url) {
+			tag = "//www.youtube.com/iframe_api";
+			scripts = document.getElementsByTagName('script');
+			for (var i = scripts.length; i--;) {
+				if (scripts[i].src.indexOf(tag) > -1) return true;
+			}
+			return false;
+		}
+
+		function loadYoutubeApi()
+		{
+			//Load player api asynchronously.
+			var tag = document.createElement('script');
+			tag.src = "//www.youtube.com/iframe_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		}
+
 		var playVid = function(e)
 		{
 			e.preventDefault();
@@ -62,11 +114,21 @@
 
 			if (e.data.provider == 'vimeo'){
 				embed_url = 'http://player.vimeo.com/video/'+e.data.id+'?autoplay=1';
+				var $embed = $('<iframe width="'+e.data.width+'" height="'+e.data.height+'" src="'+embed_url+'" frameborder="0" allowfullscreen></iframe>');
+				$(this).replaceWith($embed);
 			}else{
-				embed_url = 'http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1&amp;wmode=opaque';
+
+				video_container_id = $(this).get(0);
+				yt_video_id = e.data.id;
+				yt_height = e.data.height;
+				yt_width = e.data.width;
+				if ( ! isYoutubeApiLoaded() ){
+					loadYoutubeApi();
+				}else{
+					loadYouTubePlayer();
+				}
+
 			}
-			var $embed = $('<iframe width="'+e.data.width+'" height="'+e.data.height+'" src="'+embed_url+'" frameborder="0" allowfullscreen></iframe>');
-			$(this).replaceWith($embed);
 		}
 
 		return this.each(function(){
