@@ -22,11 +22,19 @@ function loadYouTubePlayer()
 			modestbranding: 1,
 			wmode: "opaque"
 		},
+		events: {
+			'onStateChange': stateChangeListener
+		}
 	});
 }
 
 function onYouTubePlayerAPIReady() {
 	loadYouTubePlayer();
+}
+
+function stateChangeListener(event)
+{
+	//define somewhere else
 }
 
 (function($)
