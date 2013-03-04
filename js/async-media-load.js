@@ -63,7 +63,7 @@
 			if (e.data.provider == 'vimeo'){
 				embed_url = 'http://player.vimeo.com/video/'+e.data.id+'?autoplay=1';
 			}else{
-				embed_url = 'http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1';
+				embed_url = 'http://www.youtube.com/embed/'+e.data.id+'?rel=0&amp;autoplay=1&amp;wmode=opaque';
 			}
 			var $embed = $('<iframe width="'+e.data.width+'" height="'+e.data.height+'" src="'+embed_url+'" frameborder="0" allowfullscreen></iframe>');
 			$(this).replaceWith($embed);
@@ -77,11 +77,14 @@
 			var width = $this.parent().width();
 			var height = $this.parent().height();
 
-			if (provider == 'vimeo'){
-				getVideoDetails($this, video_id, width, height);
-			}else{
-				var img_src = 'http://img.youtube.com/vi/'+video_id+'/hqdefault.jpg';
-				insertImg($this, img_src, width, height);
+			//get thumbnail only if there isn't one already
+			if ($this.children('img').length == 0){
+				if (provider == 'vimeo'){
+					getVideoDetails($this, video_id, width, height);
+				}else{
+					var img_src = 'http://img.youtube.com/vi/'+video_id+'/hqdefault.jpg';
+					insertImg($this, img_src, width, height);
+				}
 			}
 
 			$(this).on('click', {width: width, height: height, id: video_id, provider: provider}, playVid);
