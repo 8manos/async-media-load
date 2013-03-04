@@ -6,7 +6,7 @@
 		var opts = $.extend(defaults, options);*/
 
 		var regex = {
-			youtube: /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
+			youtube: /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
 			vimeo: /^.*vimeo\.com\/(\d+).*/
 		};
 
@@ -74,7 +74,7 @@
 			var href = $this.attr('href');
 			var provider = getProvider(href);
 			var video_id = getVideoId(href, provider);
-			var width = $this.parent().width();		
+			var width = $this.parent().width();
 			var height = $this.parent().height();
 
 			if (provider == 'vimeo'){
