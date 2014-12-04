@@ -475,15 +475,11 @@ table {
 /* =============================================================================
    Async Media Load Test
    ========================================================================== */
-.video-container {
+.video {
     border: 2px solid gray;
     float: left;
-    height: 180px;
     list-style: none;
     margin: 8px;
-    width: 320px;
-}
-.video-container a{
-    color: #fff;
-    display: inline-block;
+    max-width: 300px;
+    width: 100%;
 }
