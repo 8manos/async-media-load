@@ -1,0 +1,27 @@
+{
+  "name": "async-media-load",
+  "version": "1.0.0",
+  "homepage": "https://github.com/8manos/async-media-load",
+  "authors": [
+    "8manos"
+  ],
+  "description": "jQuery plugin that allows you to load media elements (Youtube, Vimeo) only when user requests them.",
+  "main": "js/async-media-load.js",
+  "keywords": [
+    "youtube",
+    "vimeo",
+    "video",
+    "media"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.md",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  }
+}
