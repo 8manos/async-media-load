@@ -18,7 +18,8 @@
     }
 
     var setStyles = function setStyles($a, $img, width, height) {
-      var img_height = $img.height() * width / $img.width();
+      var img_el = $img.get()[0];
+      var img_height = img_el.height * width / img_el.width;
       var img_top = (height - img_height) / 2;
 
       $img.width(width).height(img_height).css({
@@ -31,7 +32,7 @@
     }
 
     var setResponsiveStyles = function setStyles($a, $img, imgSize) {
-      var imgMargin = imgSize === 'large' ? '0':'-9% 0';
+      var imgMargin = imgSize === 'wide' ? '0':'-9% 0';
 
       $img.css({
         left: 0,
@@ -41,10 +42,7 @@
         width: '100%'
       });
 
-      $a.css({
-        display: 'block',
-        position: 'relative'
-      });
+      $a.css({ display: 'block' });
       $a.parent().css({
         height: 0,
         'max-width': '100%',
@@ -62,7 +60,7 @@
         var $img = $(this);
 
         if (opts.responsive) {
-          var imgSize = provider === 'vimeo_l' ? 'large':'small';
+          var imgSize = provider === 'vimeo_l' ? 'wide':'regular';
           setResponsiveStyles($a, $img, imgSize);
         } else {
           setStyles($a, $img, width, height);
@@ -131,9 +129,8 @@
         }
       } else {
         if (opts.responsive) {
-          var imgSize = width > 200 ? 'large':'small';
           var $img = $this.children('img');
-          setResponsiveStyles($this, $img, imgSize);
+          setResponsiveStyles($this, $img, 'wide');
         }
       }
 
