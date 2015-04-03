@@ -17,48 +17,55 @@
       return (match && match[1]) || null;
     }
 
+    var setStyles = function setStyles($a, $img, width, height) {
+      var img_height = $img.height() * width / $img.width();
+      var img_top = (height - img_height) / 2;
+
+      $img.width(width).height(img_height).css({
+        position: 'absolute',
+        top: img_top + 'px',
+        left: '0'
+      });
+      $a.css({ position: 'relative' });
+      $a.parent().css({ overflow: 'hidden' });
+    }
+
+    var setResponsiveStyles = function setStyles($a, $img, imgSize) {
+      var imgMargin = imgSize === 'large' ? '0':'-9% 0';
+
+      $img.css({
+        left: 0,
+        margin: imgMargin,
+        position: 'absolute',
+        top: 0,
+        width: '100%'
+      });
+
+      $a.css({
+        display: 'block',
+        position: 'relative'
+      });
+      $a.parent().css({
+        height: 0,
+        'max-width': '100%',
+        'padding-bottom': '56.25%',
+        overflow: 'hidden',
+        position: 'relative'
+      });
+    }
+
     var insertImg = function insertImg($a, img_src, width, height, provider) {
       var image = document.createElement('img');
 
       image.onload = function loadImg() {
-        var img_height = this.height * width / this.width;
-        var img_top = (height - img_height) / 2;
+
         var $img = $(this);
 
         if (opts.responsive) {
-          $img.css({
-            left: 0,
-            margin: '-9% 0',
-            position: 'absolute',
-            top: 0,
-            width: '100%'
-          });
-
-          if (provider === 'vimeo_l') {
-            $img.css({margin: 0});
-          }
-
-          $a.css({
-            display: 'block',
-            position: 'relative'
-          }).parent().css({
-            height: 0,
-            'max-width': '100%',
-            'padding-bottom': '56.25%',
-            overflow: 'hidden',
-            position: 'relative'
-          });
+          var imgSize = provider === 'vimeo_l' ? 'large':'small';
+          setResponsiveStyles($a, $img, imgSize);
         } else {
-          $img.width(width).height(img_height).css({
-            position: 'absolute',
-            top: img_top + 'px',
-            left: '0'
-          });
-          $a.css({
-            position: 'relative'
-          }).parent().css({
-            overflow: 'hidden'
-          });
+          setStyles($a, $img, width, height);
         }
 
         $a.append($img);
@@ -124,20 +131,9 @@
         }
       } else {
         if (opts.responsive) {
-          $(this).find('img').css({
-            left: 0,
-            position: 'absolute',
-            top: 0,
-            width: '100%'
-          }).parent().css({
-            display: 'block'
-          }).parent().css({
-            height: 0,
-            'max-width': '100%',
-            'padding-bottom': '56.25%',
-            overflow: 'hidden',
-            position: 'relative'
-          });
+          var imgSize = width > 200 ? 'large':'small';
+          var $img = $this.children('img');
+          setResponsiveStyles($this, $img, imgSize);
         }
       }
 
