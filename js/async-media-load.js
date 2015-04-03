@@ -17,22 +17,20 @@
       return (match && match[1]) || null;
     }
 
-    var setStyles = function setStyles($a, $img, width, height) {
-      var img_el = $img.get()[0];
-      var img_height = img_el.height * width / img_el.width;
-      var img_top = (height - img_height) / 2;
-
-      $img.width(width).height(img_height).css({
-        position: 'absolute',
-        top: img_top + 'px',
-        left: '0'
+    var setStyles = function setStyles($a, $img, width) {
+      $img.css({
+        left: 0,
+        height: 'auto',
+        position: 'relative',
+        transform: 'translateY(-50%)',
+        top: '50%',
+        width: width
       });
-      $a.css({ position: 'relative' });
       $a.parent().css({ overflow: 'hidden' });
     }
 
     var setResponsiveStyles = function setStyles($a, $img, imgSize) {
-      var imgMargin = imgSize === 'wide' ? '0':'-9% 0';
+      var imgMargin = imgSize === 'wide' ? '0':'-9.375% 0';
 
       $img.css({
         left: 0,
@@ -63,10 +61,10 @@
           var imgSize = provider === 'vimeo_l' ? 'wide':'regular';
           setResponsiveStyles($a, $img, imgSize);
         } else {
-          setStyles($a, $img, width, height);
+          setStyles($a, $img, width);
         }
 
-        $a.append($img);
+        $a.html($img);
       }
       image.src = img_src;
     }
