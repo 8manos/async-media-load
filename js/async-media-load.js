@@ -1,6 +1,6 @@
-(function($) {
-  $.fn.asyncml = function(options) {
-    var defaults = {responsive: true};
+(function ($) {
+  $.fn.asyncml = function (options) {
+    var defaults = { responsive: true };
     var opts = $.extend(defaults, options);
 
     var regex = {
@@ -13,7 +13,7 @@
     };
 
     var getVideoId = function getVideoId(href, provider) {
-      var match = href.match( regex[provider] );
+      var match = href.match(regex[provider]);
       return (match && match[1]) || null;
     };
 
@@ -30,7 +30,7 @@
     };
 
     var setResponsiveStyles = function setStyles($a, $img, imgSize) {
-      var imgMargin = imgSize === 'wide' ? '0':'-9.375% 0';
+      var imgMargin = imgSize === 'wide' ? '0' : '-9.375% 0';
 
       $img.css({
         left: 0,
@@ -58,7 +58,7 @@
         var $img = $(this);
 
         if (opts.responsive) {
-          var imgSize = provider === 'vimeo_l' ? 'wide':'regular';
+          var imgSize = provider === 'vimeo_l' ? 'wide' : 'regular';
           setResponsiveStyles($a, $img, imgSize);
         } else {
           setStyles($a, $img, width);
@@ -74,7 +74,7 @@
       $.ajax({
         url: 'http://vimeo.com/api/v2/video/' + id + '.json',
         dataType: 'jsonp',
-        success: function(data){
+        success: function (data) {
           var img_src;
           var prov_s;
           if (width > 200) {
@@ -112,7 +112,7 @@
       $(this).replaceWith($embed);
     };
 
-    return this.each(function() {
+    return this.each(function () {
       var $this = $(this);
       var href = $this.attr('href');
       var provider = getProvider(href);
