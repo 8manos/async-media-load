@@ -7,8 +7,8 @@
     var opts = $.extend(defaults, options);
 
     var regex = {
-      youtube: /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/,
-      vimeo: /^.*vimeo\.com\/(\d+).*/
+      youtube: /.*(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:vi?\/|.*u\/\w\/|embed\/|.*vi?=))([\w-]{11}).*/,
+      vimeo: /.*vimeo\.com\/(\d+).*/
     };
 
     var getProvider = function getProvider(href) {
