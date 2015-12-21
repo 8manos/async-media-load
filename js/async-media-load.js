@@ -1,6 +1,6 @@
-(function($) {
-  $.fn.asyncml = function(options) {
-    var defaults = {responsive: true};
+(function ($) {
+  $.fn.asyncml = function (options) {
+    var defaults = { responsive: true };
     var opts = $.extend(defaults, options);
 
     var regex = {
@@ -10,12 +10,12 @@
 
     var getProvider = function getProvider(href) {
       return href.indexOf('vimeo.com') >= 0 ? 'vimeo' : 'youtube';
-    }
+    };
 
     var getVideoId = function getVideoId(href, provider) {
-      var match = href.match( regex[provider] );
+      var match = href.match(regex[provider]);
       return (match && match[1]) || null;
-    }
+    };
 
     var setStyles = function setStyles($a, $img, width) {
       $img.css({
@@ -27,10 +27,10 @@
         width: width
       });
       $a.parent().css({ overflow: 'hidden' });
-    }
+    };
 
     var setResponsiveStyles = function setStyles($a, $img, imgSize) {
-      var imgMargin = imgSize === 'wide' ? '0':'-9.375% 0';
+      var imgMargin = imgSize === 'wide' ? '0' : '-9.375% 0';
 
       $img.css({
         left: 0,
@@ -48,7 +48,7 @@
         overflow: 'hidden',
         position: 'relative'
       });
-    }
+    };
 
     var insertImg = function insertImg($a, img_src, width, height, provider) {
       var image = document.createElement('img');
@@ -58,40 +58,43 @@
         var $img = $(this);
 
         if (opts.responsive) {
-          var imgSize = provider === 'vimeo_l' ? 'wide':'regular';
+          var imgSize = provider === 'vimeo_l' ? 'wide' : 'regular';
           setResponsiveStyles($a, $img, imgSize);
         } else {
           setStyles($a, $img, width);
         }
 
         $a.html($img);
-      }
+      };
       image.src = img_src;
-    }
+    };
 
     //Only for Vimeo
     var getVideoDetails = function getVideoDetails($a, id, width, height) {
       $.ajax({
         url: 'http://vimeo.com/api/v2/video/' + id + '.json',
         dataType: 'jsonp',
-        success: function(data){
+        success: function (data) {
+          var img_src;
+          var prov_s;
           if (width > 200) {
-            var img_src = data[0].thumbnail_large;
-            var prov_s = 'vimeo_l';
+            img_src = data[0].thumbnail_large;
+            prov_s = 'vimeo_l';
           } else {
-            var img_src = data[0].thumbnail_medium;
-            var prov_s = 'vimeo_m';
+            img_src = data[0].thumbnail_medium;
+            prov_s = 'vimeo_m';
           }
 
           insertImg($a, img_src, width, height, prov_s);
         }
       });
-    }
+    };
 
     var playVid = function playVid(e) {
       e.preventDefault();
 
       var embed_url = '';
+      var $embed;
 
       if (e.data.provider === 'vimeo') {
         embed_url = 'http://player.vimeo.com/video/' + e.data.id + '?autoplay=1';
@@ -101,15 +104,15 @@
 
       if (opts.responsive) {
         var style = 'height:100%;left:0;position:absolute;top:0;width:100%;';
-        var $embed = $('<iframe style="' + style + '" src="' + embed_url + '" frameborder="0" allowfullscreen></iframe>');
+        $embed = $('<iframe style="' + style + '" src="' + embed_url + '" frameborder="0" allowfullscreen></iframe>');
       } else {
-        var $embed = $('<iframe width="' + e.data.width + '" height="' + e.data.height + '" src="' + embed_url + '" frameborder="0" allowfullscreen></iframe>');
+        $embed = $('<iframe width="' + e.data.width + '" height="' + e.data.height + '" src="' + embed_url + '" frameborder="0" allowfullscreen></iframe>');
       }
 
       $(this).replaceWith($embed);
-    }
+    };
 
-    return this.each(function() {
+    return this.each(function () {
       var $this = $(this);
       var href = $this.attr('href');
       var provider = getProvider(href);
@@ -134,5 +137,5 @@
 
       $(this).on('click', {width: width, height: height, id: video_id, provider: provider}, playVid);
     });
-  }
+  };
 })(jQuery);
