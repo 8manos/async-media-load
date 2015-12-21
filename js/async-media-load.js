@@ -1,6 +1,9 @@
 (function ($) {
   $.fn.asyncml = function (options) {
-    var defaults = { responsive: true };
+    var defaults = {
+      responsive: true,
+      color: null
+    };
     var opts = $.extend(defaults, options);
 
     var regex = {
@@ -98,6 +101,9 @@
 
       if (e.data.provider === 'vimeo') {
         embed_url = 'http://player.vimeo.com/video/' + e.data.id + '?autoplay=1';
+        if (/(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i.test(opts.color)) {
+          embed_url += '&amp;color=' + opts.color;
+        }
       } else {
         embed_url = 'http://www.youtube.com/embed/' + e.data.id + '?rel=0&amp;autoplay=1&amp;wmode=opaque';
       }
