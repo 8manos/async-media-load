@@ -75,7 +75,7 @@
     //Only for Vimeo
     var getVideoDetails = function getVideoDetails($a, id, width, height) {
       $.ajax({
-        url: 'http://vimeo.com/api/v2/video/' + id + '.json',
+        url: 'https://vimeo.com/api/v2/video/' + id + '.json',
         dataType: 'jsonp',
         success: function (data) {
           var img_src;
@@ -100,12 +100,12 @@
       var $embed;
 
       if (e.data.provider === 'vimeo') {
-        embed_url = 'http://player.vimeo.com/video/' + e.data.id + '?autoplay=1';
+        embed_url = 'https://player.vimeo.com/video/' + e.data.id + '?autoplay=1';
         if (/(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i.test(opts.color)) {
           embed_url += '&amp;color=' + opts.color;
         }
       } else {
-        embed_url = 'http://www.youtube.com/embed/' + e.data.id + '?rel=0&amp;autoplay=1&amp;wmode=opaque';
+        embed_url = 'https://www.youtube.com/embed/' + e.data.id + '?rel=0&amp;autoplay=1&amp;wmode=opaque';
       }
 
       if (opts.responsive) {
@@ -131,7 +131,7 @@
         if (provider === 'vimeo') {
           getVideoDetails($this, video_id, width, height);
         } else {
-          var img_src = 'http://img.youtube.com/vi/' + video_id + '/hqdefault.jpg';
+          var img_src = 'https://img.youtube.com/vi/' + video_id + '/hqdefault.jpg';
           insertImg($this, img_src, width, height, 'youtube');
         }
       } else {
